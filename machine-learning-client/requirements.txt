@@ -1,0 +1,6 @@
+opencv-python
+numpy
+torch
+torchvision
+facenet_pytorch
+onnxruntime-gpu
