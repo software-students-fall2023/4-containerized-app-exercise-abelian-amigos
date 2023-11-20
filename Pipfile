@@ -5,7 +5,15 @@ name = "pypi"
 
 [packages]
 pylint = "*"
+numpy = "*"
+pymongo = "*"
+flask-login = "*"
+flask-sqlalchemy = "*"
 black = "*"
+flask-wtf = "*"
+flask-mongoengine = "*"
+"flask.json" = "*"
+flask-pymongo = "*"
 
 [dev-packages]
 
