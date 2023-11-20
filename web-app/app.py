@@ -1,69 +1,104 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+"""
+    Flask application for the web-app.
+"""
 
+from flask import Flask, render_template, request, redirect, url_for
+from flask_login import (
+    LoginManager,
+    UserMixin,
+    login_user,
+    login_required,
+)
+from flask_pymongo import PyMongo
+from werkzeug.security import generate_password_hash, check_password_hash
+from bson.objectid import ObjectId
+
+# Initialize the app
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/anime"
+app.config["SECRET_KEY"] = "secret_key"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-app.config["SECRET_KEY"] = "secret"
-db = SQLAlchemy()
+# Initialize Pymongo
+mongo = PyMongo(app)
 
+# initialize the login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-class Users(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(15), unique=True)
-    password = db.Column(db.String(), unique=True)
-
-db.init_app(app)
-
-with app.app_context():
-    db.create_all()
+# User class
+class User(UserMixin):
+    """
+        User class for flask-login
+    """
+    def __init__(self, user_data):
+        self.id = str(user_data["_id"])
+        self.username = user_data["username"]
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Users.query.get(int(user_id))
+    """
+        Load the user from the database
+    """
+    user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
+    if not user_data:
+        return None
+    return User(user_data)
 
-@app.route('/')
+
+# Routes
+@app.route("/")
 @login_required
 def index():
+    """
+        Handle the HomePage route
+    """
+    return render_template("homePage.html")
 
 
-    return render_template('homePage.html')
-
-@app.route('/anime', methods=['GET', 'POST'])
+@app.route("/anime", methods=["GET", "POST"])
 def anime():
+    """
+        Handle the Post request for photo upload.
+    """
     # handle POST request.
-    pass
-
+    print('request.method', request.method)
 # Route for handling the login page logic
-@app.route('/register', methods=['GET', 'POST'])
+@app.route("/register", methods=["GET", "POST"])
 def register():
+    """
+        Handle the register page logic.
+    """
     if request.method == "POST":
-        user = Users(
-            username=request.form.get('username'),
-            password=request.form.get('password')
+        # Hash the password before storing it
+        hashed_password = generate_password_hash(request.form.get("password"))
+        mongo.db.users.insert_one(
+            {"username": request.form.get("username"), "password": hashed_password}
         )
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for("login"))
 
-    return render_template('register.html')
+    return render_template("register.html")
 
-@app.route('/login', methods=['GET', 'POST'])
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    print('hami yaha chau')
+    """
+        Handle the login page logic.
+    """
     if request.method == "POST":
-        user = Users.query.filter_by(
-            username=request.form.get("username")).first()
-        if user:
-            if user.password == request.form.get("password"):
-                login_user(user)
-                return redirect(url_for("index"))
-        else:
-            print('user not found')
-            return redirect(url_for("signup"))
+        username = request.form.get("username")
+        password = request.form.get("password")
+        user_data = mongo.db.users.find_one({"username": username})
+
+        if user_data and check_password_hash(user_data["password"], password):
+            user = User(user_data)  # Assuming User is a class that you've defined
+            login_user(user)
+            return redirect(url_for("index"))
+
+        print("Invalid username or password")
+        # Return to login page with an error message
+        return render_template("login.html", error="Invalid username or password")
+
+    # GET request: just show the login form
     return render_template("login.html")
 
 

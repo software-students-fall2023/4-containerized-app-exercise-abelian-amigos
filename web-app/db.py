@@ -1,6 +1,10 @@
-import pymongo
+# database connection
+from flask_pymongo import PyMongo
 
-connection = pymongo.MongoClient("mongodb://localhost")
+mongo = None
 
-db = connection.project4
 
+def init_db(app):
+    global mongo
+    mongo = PyMongo(app)
+    return mongo
