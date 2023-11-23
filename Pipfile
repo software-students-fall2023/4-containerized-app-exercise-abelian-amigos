@@ -4,18 +4,24 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pylint = "*"
 numpy = "*"
 pymongo = "*"
+flask = "*"
 flask-login = "*"
 flask-sqlalchemy = "*"
-black = "*"
+opencv-python = "*"
+onnxruntime = "*"
+torch = "*"
+facenet-pytorch = "*"
+tomli = "*"
+dill = "*"
 flask-wtf = "*"
 flask-mongoengine = "*"
-"flask.json" = "*"
 flask-pymongo = "*"
 
 [dev-packages]
+pylint = "*"
+black = "*"
 
 [requires]
 python_version = "3.10"
