@@ -5,29 +5,37 @@
 {% endblock %}
 
 {% block head %}
-    <script defer src="{{ url_for('static', filename='scripts/homePage.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='scripts/index.js') }}"></script>
     <script defer src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 {% endblock %}
 
 {% block content %}
-<header>
-    <div class="container">
-        <h1> Manga Morph </h1>
-        <h3> See Yourself in a New Manga Dimension </h3>
-        <hr>
-    </div>
-</header>
-<body>
+    <header>
+        <div class="container">
+            <h1> Sketchify </h1>
+            <h3> See Yourself in a sketch! </h3>
+            <hr>
+        </div>
+    </header>
+    <body>
+
     <div class="container mt-4">
-        
-        <form action="/anime" method="post" enctype="multipart/form-data" class="mb-3">
+
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <!-- Upload Image -->
+        <form action="/sketchify" method="post" enctype="multipart/form-data" class="mb-3">
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="fileToUpload">Select file to upload:</label>
-                        <input type="file" name="fileToUpload" id="fileToUpload" class="form-control-file">
+                        <label for="photo">Select file to upload:</label>
+                        <input type="file" name="photo" id="photo" class="form-control-file">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Upload File</button>
@@ -49,22 +57,13 @@
                 </div>
                 <button id="snap" class="btn btn-success mb-3">Capture Photo</button>
                 <button id="retry" class="btn btn-warning mb-3" style="display:none;">Retry</button>
-                <button id="uploadSnap" class="btn btn-secondary mb-3" style="display:none;">Upload Captured Image</button>
+                <button id="uploadSnap" class="btn btn-secondary mb-3" style="display:none;">
+                    Upload Captured Image
+                </button>
 
             </div>
         </div>
-
-        <hr>
-        <div class="container mt-4 text-center">
-
-            <h1>List of images that the user has uploaded</h1>
-        </div>
-        
     </div>
-</body>
-
-    
-
-
+    </body>
 {% endblock %}
 

@@ -1,0 +1,23 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    Sketch
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4 text-center">
+        <h1>Photo</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <img src="/images/user_image/{{ image_name }}" class="img-fluid" alt="User Image"/>
+            </div>
+        </div>
+
+        <h2>Sketch</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <img src="/images/sketch_image/{{ image_name }}" class="img-fluid" alt="Sketch Image"/>
+            </div>
+        </div>
+    </div>
+{% endblock %}

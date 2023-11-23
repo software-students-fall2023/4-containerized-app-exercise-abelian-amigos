@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5a2fc12533ac033dcf0015a49356f9245faf04a6159917423ac04704f9256d1e"
+            "sha256": "77b60ad5248d8901abd0e8e7bd29ba135f898de266c548575ea4994b201a793d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -708,8 +708,17 @@
                 "sha256:6f3d1f7b8a31ba32b73917cefc1f28cc660562f39aea8646d30bd6eff21f7bae",
                 "sha256:b0efb6516fd4fb07b45949053826a62fa4cb353db5be2bbb4a7aa1fdd1e345fb"
             ],
-            "markers": "sys_platform == 'win32' and python_version >= '3.8'",
+            "markers": "python_version >= '3.8' and sys_platform == 'win32'",
             "version": "==3.4.1"
+        },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:a8df96034aae6d2d50a4ebe8216326c61c3eb64836776504fcca410e5937a3ba",
+                "sha256:f5971a9226b701070a4bf2c38c89e5a3f0d64de8debda981d1db98583009122a"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==1.0.0"
         },
         "requests": {
             "hashes": [
@@ -869,6 +878,9 @@
             "version": "==3.0.1"
         },
         "wtforms": {
+            "extras": [
+                "email"
+            ],
             "hashes": [
                 "sha256:5e51df8af9a60f6beead75efa10975e97768825a82146a65c7cbf5b915990620",
                 "sha256:ae7c54b29806c70f7bce8eb9f24afceb10ca5c32af3d9f04f74d2f66ccc5c7e0"
