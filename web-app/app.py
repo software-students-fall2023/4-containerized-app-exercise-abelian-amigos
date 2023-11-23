@@ -1,7 +1,8 @@
 """
-    Flask application for the web-app.
+Flask application for the web-app.
 """
 
+from bson.objectid import ObjectId
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import (
     LoginManager,
@@ -11,7 +12,6 @@ from flask_login import (
 )
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
-from bson.objectid import ObjectId
 
 # Initialize the app
 app = Flask(__name__)
@@ -25,19 +25,22 @@ mongo = PyMongo(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 # User class
 class User(UserMixin):
     """
-        User class for flask-login
+    User class for flask-login
     """
+
     def __init__(self, user_data):
         self.id = str(user_data["_id"])
         self.username = user_data["username"]
 
+
 @login_manager.user_loader
 def load_user(user_id):
     """
-        Load the user from the database
+    Load the user from the database
     """
     user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
     if not user_data:
@@ -50,7 +53,7 @@ def load_user(user_id):
 @login_required
 def index():
     """
-        Handle the HomePage route
+    Handle the HomePage route
     """
     return render_template("homePage.html")
 
@@ -58,15 +61,17 @@ def index():
 @app.route("/anime", methods=["GET", "POST"])
 def anime():
     """
-        Handle the Post request for photo upload.
+    Handle the Post request for photo upload.
     """
     # handle POST request.
-    print('request.method', request.method)
+    print("request.method", request.method)
+
+
 # Route for handling the login page logic
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """
-        Handle the register page logic.
+    Handle the register page logic.
     """
     if request.method == "POST":
         # Hash the password before storing it
@@ -82,7 +87,7 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """
-        Handle the login page logic.
+    Handle the login page logic.
     """
     if request.method == "POST":
         username = request.form.get("username")
