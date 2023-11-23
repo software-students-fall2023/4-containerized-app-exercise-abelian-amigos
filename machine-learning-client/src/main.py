@@ -4,7 +4,6 @@ This module contains code for a machine learning client that creates sketch from
 import os
 from datetime import datetime
 
-# pylint: disable=no-member
 import cv2
 
 from flask import Flask, request
