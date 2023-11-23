@@ -27,7 +27,7 @@ import numpy as np
 import onnxruntime as ort
 import torch
 from facenet_pytorch import MTCNN
-from src.defaults import MODELS_DIR
+from ml_server_defaults import MODELS_DIR
 
 
 class Model:

@@ -2,24 +2,35 @@
 Flask application for the web-app.
 """
 
+import requests
 from bson.objectid import ObjectId
-from flask import Flask, render_template, request, redirect, url_for
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    send_from_directory,
+)
 from flask_login import (
     LoginManager,
     UserMixin,
     login_user,
     login_required,
+    current_user,
 )
-from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# Initialize the app
-app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/anime"
-app.config["SECRET_KEY"] = "secret_key"
+from db import db
+from web_app_defaults import (
+    SECRET_KEY,
+    ML_SERVER_URL,
+    USER_IMAGES_DIR,
+    SKETCH_IMAGES_DIR,
+)
 
-# Initialize Pymongo
-mongo = PyMongo(app)
+app = Flask(__name__)
+app.config["SECRET_KEY"] = SECRET_KEY
 
 # initialize the login manager
 login_manager = LoginManager()
@@ -42,7 +53,7 @@ def load_user(user_id):
     """
     Load the user from the database
     """
-    user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
+    user_data = db.users.find_one({"_id": ObjectId(user_id)})
     if not user_data:
         return None
     return User(user_data)
@@ -55,16 +66,34 @@ def index():
     """
     Handle the HomePage route
     """
-    return render_template("homePage.html")
+    return render_template("index.html")
 
 
-@app.route("/anime", methods=["GET", "POST"])
+@app.route("/sketchify", methods=["POST"])
 def anime():
     """
     Handle the Post request for photo upload.
     """
-    # handle POST request.
-    print("request.method", request.method)
+    # prepare the image for upload
+    image = request.files["photo"]
+    files = [("photo", (image.filename, image.stream, image.content_type))]
+
+    # send the image to the machine learning server for generating the sketch
+    response = requests.post(
+        f"{ML_SERVER_URL}/sketch", files=files, timeout=10000
+    ).json()
+
+    if response["success"]:
+        # save the image name in the database
+        db.images.insert_one(
+            {
+                "image_name": response["image_name"],
+                "user_id": current_user.id,
+            }
+        )
+        return render_template("render.html", image_name=response["image_name"])
+
+    return render_template("index.html", error=response["error"])
 
 
 # Route for handling the login page logic
@@ -76,7 +105,7 @@ def register():
     if request.method == "POST":
         # Hash the password before storing it
         hashed_password = generate_password_hash(request.form.get("password"))
-        mongo.db.users.insert_one(
+        db.users.insert_one(
             {"username": request.form.get("username"), "password": hashed_password}
         )
         return redirect(url_for("login"))
@@ -92,7 +121,7 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        user_data = mongo.db.users.find_one({"username": username})
+        user_data = db.users.find_one({"username": username})
 
         if user_data and check_password_hash(user_data["password"], password):
             user = User(user_data)  # Assuming User is a class that you've defined
@@ -105,6 +134,15 @@ def login():
 
     # GET request: just show the login form
     return render_template("login.html")
+
+
+@app.route("/images/<image_type>/<image_name>")
+def serve_images(image_type, image_name):
+    """
+    A function to serve the images from the server.
+    """
+    directory = SKETCH_IMAGES_DIR if image_type == "sketch_image" else USER_IMAGES_DIR
+    return send_from_directory(directory, image_name)
 
 
 if __name__ == "__main__":

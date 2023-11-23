@@ -25,3 +25,7 @@ black = "*"
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+lint = "pylint --ignored-modules=cv2 **/*.py"
+format = "black **/*.py"
