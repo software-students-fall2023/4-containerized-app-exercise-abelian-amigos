@@ -18,6 +18,7 @@ dill = "*"
 flask-wtf = "*"
 flask-mongoengine = "*"
 flask-pymongo = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pylint = "*"
