@@ -21,7 +21,6 @@ Asher Chan
 """
 
 
-# pylint: disable=no-member
 import cv2
 
 import numpy as np
