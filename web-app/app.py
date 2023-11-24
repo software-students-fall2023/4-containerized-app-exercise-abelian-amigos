@@ -16,7 +16,6 @@ from flask_login import (
     LoginManager,
     UserMixin,
     login_user,
-    login_required,
     current_user,
 )
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -61,12 +60,13 @@ def load_user(user_id):
 
 # Routes
 @app.route("/")
-@login_required
 def index():
     """
     Handle the HomePage route
     """
-    return render_template("index.html")
+    if current_user.is_authenticated:
+        return render_template("index.html")
+    return redirect(url_for("login"))
 
 
 @app.route("/sketchify", methods=["POST"])
@@ -96,6 +96,16 @@ def anime():
     return render_template("index.html", error=response["error"])
 
 
+@app.route("/previous", methods=["GET", "POST"])
+def previous():
+    """
+    Retrieve and render all past sketches made by user.
+    """
+
+    user_renders = db.images.find({"user_id": current_user.id})
+    return render_template("previous.html", user_renders=user_renders)
+
+
 # Route for handling the login page logic
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -105,9 +115,11 @@ def register():
     if request.method == "POST":
         # Hash the password before storing it
         hashed_password = generate_password_hash(request.form.get("password"))
+
         db.users.insert_one(
             {"username": request.form.get("username"), "password": hashed_password}
         )
+
         return redirect(url_for("login"))
 
     return render_template("register.html")
@@ -146,4 +158,4 @@ def serve_images(image_type, image_name):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8001)
