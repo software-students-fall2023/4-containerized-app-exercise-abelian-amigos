@@ -8,7 +8,8 @@ import cv2
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 
-from ml_server_defaults import USER_IMAGES, SKETCH_IMAGES
+from ml_defaults import USER_IMAGES, SKETCH_IMAGES
+from ml_db import db
 from model import Model
 
 
@@ -55,7 +56,18 @@ def sketch():
     image = cv2.imread(str(USER_IMAGES / image_name))
 
     try:
+        start = datetime.now()
         output = model.run(image)
+        end = datetime.now()
+        duration = (end - start).total_seconds()
+        db.inferences.insert_one(
+            {
+                "image": image_name,
+                "start_time": start,
+                "end_time": end,
+                "inference_time": duration,
+            }
+        )
         cv2.imwrite(str(SKETCH_IMAGES / image_name), output)
         return {"success": True, "image_name": image_name}
     except ValueError:
