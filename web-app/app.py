@@ -20,13 +20,14 @@ from flask_login import (
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db import db
 from web_app_defaults import (
     SECRET_KEY,
     ML_SERVER_URL,
     USER_IMAGES_DIR,
     SKETCH_IMAGES_DIR,
 )
+
+from web_app_db import db
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
