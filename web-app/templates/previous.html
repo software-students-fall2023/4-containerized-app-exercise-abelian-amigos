@@ -1,0 +1,9 @@
+<h1>Past Renders</h1>
+
+{% for render in user_renders %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <img src="/images/sketch_image/{{ render.image_name }}" class="img-fluid" alt="Sketch Image"/>
+        </div>
+    </div>
+{% endfor %}
