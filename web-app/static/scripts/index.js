@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     // Enable the webcam on button click
     document.getElementById('enableWebcamButton').addEventListener("click", function () {
@@ -14,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const uploadButton = document.getElementById('uploadSnap');
 
     // Request access to the webcam
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({video: true})
         .then(function (stream) {
             video.srcObject = stream;
             video.play();
@@ -42,10 +41,31 @@ document.addEventListener("DOMContentLoaded", function () {
         snapButton.style.display = 'block';
     });
 
-    // Upload the captured image on button click
-    uploadButton.addEventListener("click", function () {
-        const imageData = canvas.toDataURL('image/png');
-        // TODO: POST this imageData to your server via AJAX
+    document.getElementById('uploadSnap').addEventListener("click", function () {
+        canvas.toBlob(function (blob) {
+            let newImage = new File([blob], 'webcam_image.png', {
+                type: 'image/png'
+            });
+
+            let dt = new DataTransfer();
+            dt.items.add(newImage);
+            let fileList = dt.files;
+
+            let form = document.createElement('form');
+            form.enctype = 'multipart/form-data';
+            form.method = 'post';
+            form.action = '/sketchify';
+            form.style.display = 'none';
+
+            let input = document.createElement('input');
+            input.type = 'file';
+            input.name = 'photo';
+            input.files = fileList;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }, 'image/png');
     });
 
 });
