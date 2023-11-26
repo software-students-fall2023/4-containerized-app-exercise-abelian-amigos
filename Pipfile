@@ -9,21 +9,17 @@ verify_ssl = true
 name = "downloadpytorch"
 
 [packages]
-numpy = "*"
-pymongo = "*"
 flask = "*"
 flask-login = "*"
-flask-sqlalchemy = "*"
+pymongo = "*"
+torch = {version = "*", index = "downloadpytorch"}
+torchvision = {version = "*", index = "downloadpytorch"}
 opencv-python = "*"
 onnxruntime = "*"
 facenet-pytorch = "*"
 tomli = "*"
 dill = "*"
-flask-wtf = "*"
-flask-mongoengine = "*"
-flask-pymongo = "*"
 python-dotenv = "*"
-torch = {version = "*", index = "downloadpytorch"}
 
 [dev-packages]
 pylint = "*"
