@@ -20,8 +20,8 @@ Asher Chan
 ```
 """
 
+from typing import Union
 import cv2
-
 import numpy as np
 import onnxruntime as ort
 from facenet_pytorch import MTCNN
@@ -63,7 +63,7 @@ class Model:
 
     @staticmethod
     def margin_face(
-        box: np.ndarray, img_hw: tuple[int, int], margin: float | None = None
+        box: np.ndarray, img_hw: tuple[int, int], margin: Union[float, None] = None
     ) -> list[int]:
         """
         Get the margin of the face.
