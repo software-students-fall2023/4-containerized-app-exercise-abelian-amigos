@@ -16,7 +16,7 @@ DATABASE_NAME = os.getenv("MONGO_DB_NAME")
 
 ML_SERVER_URL = os.getenv("ML_SERVER_URL")
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY") or "secret"
 
 IMAGES_DIR = Path(__file__).parent.parent.parent / "images"
 USER_IMAGES_DIR = IMAGES_DIR / "user_images"
