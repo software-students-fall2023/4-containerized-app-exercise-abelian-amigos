@@ -3,6 +3,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+url = "https://download.pytorch.org/whl/cpu"
+verify_ssl = true
+name = "downloadpytorch"
+
 [packages]
 numpy = "*"
 pymongo = "*"
@@ -11,7 +16,6 @@ flask-login = "*"
 flask-sqlalchemy = "*"
 opencv-python = "*"
 onnxruntime = "*"
-torch = "*"
 facenet-pytorch = "*"
 tomli = "*"
 dill = "*"
@@ -19,10 +23,12 @@ flask-wtf = "*"
 flask-mongoengine = "*"
 flask-pymongo = "*"
 python-dotenv = "*"
+torch = {version = "*", index = "downloadpytorch"}
 
 [dev-packages]
 pylint = "*"
 black = "*"
+pytest = "*"
 pytest-flask = "*"
 coverage = "*"
 
