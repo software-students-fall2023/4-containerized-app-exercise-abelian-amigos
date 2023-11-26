@@ -20,14 +20,12 @@ Asher Chan
 ```
 """
 
-
 import cv2
 
 import numpy as np
 import onnxruntime as ort
-import torch
 from facenet_pytorch import MTCNN
-from ml_defaults import MODELS_DIR
+from src.ml_defaults import MODELS_DIR
 
 
 class Model:
@@ -36,7 +34,7 @@ class Model:
     """
 
     def __init__(self):
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = "cpu"
         self.face_detector = MTCNN(
             image_size=256,
             margin=80,

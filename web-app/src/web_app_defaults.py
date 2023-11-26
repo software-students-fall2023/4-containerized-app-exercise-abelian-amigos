@@ -3,6 +3,7 @@ This file contains the default values for connecting to the database.
 """
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,6 +18,6 @@ ML_SERVER_URL = os.getenv("ML_SERVER_URL")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-IMAGES_DIR = Path(__file__).parent.parent / "images"
+IMAGES_DIR = Path(__file__).parent.parent.parent / "images"
 USER_IMAGES_DIR = IMAGES_DIR / "user_images"
 SKETCH_IMAGES_DIR = IMAGES_DIR / "sketch_images"

@@ -3,7 +3,7 @@ This file contains the code to connect to the database and database helper funct
 """
 import pymongo
 
-from ml_defaults import (
+from src.ml_defaults import (
     MONGO_HOST,
     MONGO_PORT,
     MONGO_USERNAME,
