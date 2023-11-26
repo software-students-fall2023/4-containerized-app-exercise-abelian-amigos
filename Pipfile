@@ -3,30 +3,38 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[[source]]
+url = "https://download.pytorch.org/whl/cpu"
+verify_ssl = true
+name = "downloadpytorch"
+
 [packages]
-numpy = "*"
-pymongo = "*"
 flask = "*"
 flask-login = "*"
-flask-sqlalchemy = "*"
+pymongo = "*"
+torch = {version = "*", index = "downloadpytorch"}
+torchvision = {version = "*", index = "downloadpytorch"}
 opencv-python = "*"
 onnxruntime = "*"
-torch = "*"
 facenet-pytorch = "*"
 tomli = "*"
 dill = "*"
-flask-wtf = "*"
-flask-mongoengine = "*"
-flask-pymongo = "*"
 python-dotenv = "*"
 
 [dev-packages]
 pylint = "*"
 black = "*"
+pytest = "*"
+pytest-flask = "*"
+coverage = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3"
 
 [scripts]
 lint = "pylint --ignored-modules=cv2 **/*.py"
 format = "black **/*.py"
+test-ml-server = "cd machine-learning-client && coverage run -m pytest && coverage report --include=src/**/*.py"
+test-web-app = "cd web-app && coverage run -m pytest && coverage report --include=src/**/*.py"
+ml-server = "cd machine-learning-client && python -m src.main"
+web-app = "cd web-app && python -m src.app"

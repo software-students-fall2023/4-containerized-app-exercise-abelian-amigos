@@ -8,9 +8,9 @@ import cv2
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 
-from ml_defaults import USER_IMAGES, SKETCH_IMAGES
-from ml_db import db
-from model import Model
+from src.ml_defaults import USER_IMAGES, SKETCH_IMAGES
+from src.ml_db import db
+from src.model import Model
 
 
 def make_directories():
