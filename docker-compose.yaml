@@ -1,0 +1,46 @@
+version: "3.1"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "5000:27017"
+
+  machine-learning-client:
+    build: ./machine-learning-client
+    image: machine-learning-client
+    container_name: machine-learning-client
+    ports:
+      - "8002:8002"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_DB_HOST=${MONGO_DB_HOST}
+      - MONGO_DB_PORT=${MONGO_DB_PORT}
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
+      - IMAGES_DIR=${IMAGES_DIR}
+    volumes:
+      - images:/app/images
+
+  web-app:
+    build: ./web-app
+    image: web-app
+    container_name: web-app
+    ports:
+      - "8001:8001"
+    depends_on:
+      - mongodb
+      - machine-learning-client
+    environment:
+      - MONGO_DB_HOST=${MONGO_DB_HOST}
+      - MONGO_DB_PORT=${MONGO_DB_PORT}
+      - MONGO_DB_NAME=${MONGO_DB_NAME}
+      - ML_SERVER_URL=${ML_SERVER_URL}
+      - SECRET_KEY=${SECRET_KEY}
+      - IMAGES_DIR=${IMAGES_DIR}
+    volumes:
+      - images:/app/images
+
+volumes:
+  images:
