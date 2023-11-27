@@ -117,24 +117,22 @@ def register():
     Handle the register page logic.
     """
     if request.method == "POST":
-
         if db.users.find_one({"username": request.form.get("username")}):
             return render_template("register.html", error="Username already exists.")
-        
-        else:
-            hashed_password = generate_password_hash(
-                request.form.get("password"), method="pbkdf2:sha256"
-            )
 
-            db.users.insert_one(
-                {"username": request.form.get("username"), "password": hashed_password}
-            )
+        hashed_password = generate_password_hash(
+            request.form.get("password"), method="pbkdf2:sha256"
+        )
 
-            user_data = db.users.find_one({"username": request.form.get("username")})
-            user = User(user_data)
-            login_user(user)
-            return redirect(url_for("index"))
-        
+        db.users.insert_one(
+            {"username": request.form.get("username"), "password": hashed_password}
+        )
+
+        user_data = db.users.find_one({"username": request.form.get("username")})
+        user = User(user_data)
+        login_user(user)
+        return redirect(url_for("index"))
+
     return render_template("register.html")
 
 
@@ -176,7 +174,7 @@ def logout():
     Handle the logout logic.
     """
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
