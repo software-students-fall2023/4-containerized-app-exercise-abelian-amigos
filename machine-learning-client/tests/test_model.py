@@ -1,5 +1,5 @@
 """
-Test the ML server model.
+This module contains tests for the ML server model.
 """
 import cv2
 import pytest
