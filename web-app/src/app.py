@@ -2,6 +2,8 @@
 Flask application for the web-app.
 """
 
+from datetime import datetime
+
 import requests
 from bson.objectid import ObjectId
 from flask import (
@@ -20,16 +22,14 @@ from flask_login import (
     current_user,
     login_required,
 )
-from werkzeug.security import generate_password_hash, check_password_hash
-
+from src.web_app_db import db
 from src.web_app_defaults import (
     SECRET_KEY,
     ML_SERVER_URL,
     USER_IMAGES_DIR,
     SKETCH_IMAGES_DIR,
 )
-
-from src.web_app_db import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
@@ -92,6 +92,7 @@ def sketch():
             {
                 "image_name": response["image_name"],
                 "user_id": current_user.id,
+                "created_at": datetime.now(),
             }
         )
         return render_template("render.html", image_name=response["image_name"])
@@ -106,8 +107,8 @@ def previous():
     Retrieve and render all past sketches made by user.
     """
 
-    user_renders = db.images.find({"user_id": current_user.id})
-    return render_template("previous.html", user_renders=user_renders)
+    user_renders = db.images.find({"user_id": current_user.id}).sort("created_at", -1)
+    return render_template("previous.html", user_renders=list(user_renders))
 
 
 # Route for handling the login page logic
