@@ -5,7 +5,7 @@ services:
     image: mongo:latest
     container_name: mongodb
     ports:
-      - "5000:27017"
+      - "27017:27017"
 
   machine-learning-client:
     build: ./machine-learning-client

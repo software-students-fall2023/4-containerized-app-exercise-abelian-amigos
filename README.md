@@ -1,8 +1,6 @@
 # Sketchify
 
-<!-- [![ML Client](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_ml.yml/badge.svg)](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_ml.yml)
-
-[![Web App](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_app.yml/badge.svg)](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_app.yml) -->
+[![ML Client](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_ml.yml/badge.svg)](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_ml.yml) [![Web App](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_app.yml/badge.svg)](https://github.com/software-students-fall2023/4-containerized-app-exercise-abelian-amigos/actions/workflows/test_app.yml)
 
 # Team Members
 
