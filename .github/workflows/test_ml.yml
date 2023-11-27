@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run ML Tests
 
 on:
   pull_request_review:
@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  test:
+  test_ml:
     name: Test on Python 3.11
     runs-on: ubuntu-latest
     if: ((github.event_name == 'pull_request_review' && github.event.review.state == 'approved') || github.event_name == 'push')
@@ -35,7 +35,3 @@ jobs:
           cd machine-learning-client
           pipenv run python -m coverage run -m pytest
           pipenv run python -m coverage report --include=src/**/*.py --fail-under=80
-#          cd ..
-#          cd web-app
-#          pipenv run python -m coverage run -m pytest
-#          pipenv run python -m coverage report --include=src/**/*.py --fail-under=80

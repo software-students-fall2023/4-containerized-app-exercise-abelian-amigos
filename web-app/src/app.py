@@ -17,6 +17,7 @@ from flask_login import (
     UserMixin,
     login_user,
     current_user,
+    login_required,
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -98,6 +99,7 @@ def anime():
 
 
 @app.route("/previous", methods=["GET", "POST"])
+@login_required
 def previous():
     """
     Retrieve and render all past sketches made by user.
@@ -115,7 +117,9 @@ def register():
     """
     if request.method == "POST":
         # Hash the password before storing it
-        hashed_password = generate_password_hash(request.form.get("password"))
+        hashed_password = generate_password_hash(
+            request.form.get("password"), method="pbkdf2:sha256"
+        )
 
         db.users.insert_one(
             {"username": request.form.get("username"), "password": hashed_password}
@@ -141,7 +145,6 @@ def login():
             login_user(user)
             return redirect(url_for("index"))
 
-        print("Invalid username or password")
         # Return to login page with an error message
         return render_template("login.html", error="Invalid username or password")
 
