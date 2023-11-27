@@ -12,17 +12,9 @@
 {% endblock %}
 
 {% block content %}
-    <body>
-
-    <header class="container">
-        <h1>Sketchify</h1>
-        <h3>See Yourself in a Sketch!</h3>
-        <hr>
-    </header>
-
     <div class="container mt-4">
         <div class="container m-4 d-flex justify-content-between">
-            <a href="/previous" class="btn btn-secondary">See Previous Renders!</a>
+            <a href="/previous" class="btn btn-secondary">See Previous Renders</a>
             <a href="/logout" class="btn btn-secondary">Log Out</a>
         </div>
 
@@ -32,37 +24,37 @@
             </div>
         {% endif %}
 
-        <!-- Upload Image -->
-        <form action="/sketchify" method="post" enctype="multipart/form-data" class="mb-3">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="photo">Select file to upload:</label>
-                        <input type="file" name="photo" id="photo" class="form-control-file">
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Upload File</button>
+        <div class="upload-section container mt-4 text-center">
+            <!-- Upload Image -->
+            <h2 class="upload-title">Upload an Image</h2>
+            <form action="/sketchify" method="post" enctype="multipart/form-data" class="mb-3">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 action-panel">
+                        <input type="file" name="photo" id="photo" class="form-control-file" accept="image/*" required>
+                        <button type="submit" class="btn btn-success">Sketchify</button>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
         <hr>
 
         <!-- Webcam Capture -->
-        <div class="container mt-4 text-center">
-            <h2>Capture Image from Webcam</h2>
+        <div class="webcam-section container mt-4 text-center">
+            <h2 class="webcam-title">Capture Image from Webcam</h2>
             <button id="enableWebcamButton" class="btn btn-primary mb-3">Use Webcam</button>
             <div class="webcam">
-                <div id="cameraContainer" class="d-flex justify-content-center flex-column align-items-center">
+                <div id="cameraContainer"
+                     class="webcam-container d-flex justify-content-center flex-column align-items-center">
                     <video id="video" width="640" height="480" autoplay class="mb-3"></video>
                     <canvas id="canvas" width="640" height="480" class="mb-3" style="display:none;"></canvas>
                 </div>
-                <button id="snap" class="btn btn-success mb-3">Capture Photo</button>
-                <button id="retry" class="btn btn-warning mb-3" style="display:none;">Retry</button>
-                <button id="uploadSnap" class="btn btn-secondary mb-3" style="display:none;">Upload Captured Image</button>
+                <div class="button-group">
+                    <button id="snap" class="btn btn-success mb-3">Capture Photo</button>
+                    <button id="retry" class="btn btn-warning mb-3" style="display:none;">Retry</button>
+                    <button id="uploadSnap" class="btn btn-success mb-3" style="display:none;">Sketchify</button>
+                </div>
             </div>
         </div>
     </div>
-    </body>
 {% endblock %}
