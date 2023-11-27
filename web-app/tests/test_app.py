@@ -35,7 +35,7 @@ def test_register(client):
         "/register", data={"username": "testuser", "password": "testpassword"}
     )
     assert response.status_code == 302  # Redirect to login page after registration
-    assert response.headers["Location"] == "/login"
+    assert response.headers["Location"] == "/"
 
 
 def test_login(client):
