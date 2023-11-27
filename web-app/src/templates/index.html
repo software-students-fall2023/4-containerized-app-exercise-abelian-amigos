@@ -12,19 +12,19 @@
 {% endblock %}
 
 {% block content %}
-    <header>
-        <div class="container">
-            <h1> Sketchify </h1>
-            <h3> See Yourself in a sketch! </h3>
-            <hr>
-        </div>
-    </header>
-
-    <a href="/previous"> See Previous Renders! </a>
-
     <body>
 
+    <header class="container">
+        <h1>Sketchify</h1>
+        <h3>See Yourself in a Sketch!</h3>
+        <hr>
+    </header>
+
     <div class="container mt-4">
+        <div class="container m-4 d-flex justify-content-between">
+            <a href="/previous" class="btn btn-secondary">See Previous Renders!</a>
+            <a href="/logout" class="btn btn-secondary">Log Out</a>
+        </div>
 
         {% if error %}
             <div class="alert alert-danger" role="alert">
@@ -60,12 +60,9 @@
                 </div>
                 <button id="snap" class="btn btn-success mb-3">Capture Photo</button>
                 <button id="retry" class="btn btn-warning mb-3" style="display:none;">Retry</button>
-                <button id="uploadSnap" class="btn btn-secondary mb-3" style="display:none;">
-                    Upload Captured Image
-                </button>
+                <button id="uploadSnap" class="btn btn-secondary mb-3" style="display:none;">Upload Captured Image</button>
             </div>
         </div>
     </div>
     </body>
 {% endblock %}
-

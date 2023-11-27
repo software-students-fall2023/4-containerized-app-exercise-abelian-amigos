@@ -16,6 +16,7 @@ from flask_login import (
     LoginManager,
     UserMixin,
     login_user,
+    logout_user,
     current_user,
     login_required,
 )
@@ -72,7 +73,7 @@ def index():
 
 
 @app.route("/sketchify", methods=["POST"])
-def anime():
+def sketch():
     """
     Handle the Post request for photo upload.
     """
@@ -116,17 +117,24 @@ def register():
     Handle the register page logic.
     """
     if request.method == "POST":
-        # Hash the password before storing it
-        hashed_password = generate_password_hash(
-            request.form.get("password"), method="pbkdf2:sha256"
-        )
 
-        db.users.insert_one(
-            {"username": request.form.get("username"), "password": hashed_password}
-        )
+        if db.users.find_one({"username": request.form.get("username")}):
+            return render_template("register.html", error="Username already exists.")
+        
+        else:
+            hashed_password = generate_password_hash(
+                request.form.get("password"), method="pbkdf2:sha256"
+            )
 
-        return redirect(url_for("login"))
+            db.users.insert_one(
+                {"username": request.form.get("username"), "password": hashed_password}
+            )
 
+            user_data = db.users.find_one({"username": request.form.get("username")})
+            user = User(user_data)
+            login_user(user)
+            return redirect(url_for("index"))
+        
     return render_template("register.html")
 
 
@@ -141,7 +149,7 @@ def login():
         user_data = db.users.find_one({"username": username})
 
         if user_data and check_password_hash(user_data["password"], password):
-            user = User(user_data)  # Assuming User is a class that you've defined
+            user = User(user_data)
             login_user(user)
             return redirect(url_for("index"))
 
@@ -159,6 +167,16 @@ def serve_images(image_type, image_name):
     """
     directory = SKETCH_IMAGES_DIR if image_type == "sketch_image" else USER_IMAGES_DIR
     return send_from_directory(directory, image_name)
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    """
+    Handle the logout logic.
+    """
+    logout_user()
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
