@@ -13,11 +13,11 @@ from src.ml_db import db
 from src.model import Model
 
 
-def make_directories():
+def make_directories(user_images, sketch_images):
     """
     A function to ensure all the directories needed for the application to run are present.
     """
-    for directory in [USER_IMAGES, SKETCH_IMAGES]:
+    for directory in [user_images, sketch_images]:
         if not os.path.exists(directory):
             os.makedirs(directory)
 
@@ -26,7 +26,7 @@ def init_app():
     """
     A function to initialize the application and instantiate the model used for sketching
     """
-    make_directories()
+    make_directories(USER_IMAGES, SKETCH_IMAGES)
     app_ = Flask(__name__)
     model_ = Model()
 

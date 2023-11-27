@@ -11,7 +11,6 @@ name = "downloadpytorch"
 [packages]
 flask = "*"
 flask-login = "*"
-pymongo = "*"
 torch = {version = "*", index = "downloadpytorch"}
 torchvision = {version = "*", index = "downloadpytorch"}
 opencv-python = "*"
@@ -20,6 +19,8 @@ facenet-pytorch = "*"
 tomli = "*"
 dill = "*"
 python-dotenv = "*"
+pytest = "*"
+pymongo = "*"
 
 [dev-packages]
 pylint = "*"
