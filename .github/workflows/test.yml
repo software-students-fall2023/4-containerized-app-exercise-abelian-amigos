@@ -47,7 +47,7 @@ jobs:
           cd machine-learning-client
           pipenv run python -m coverage run -m pytest
           pipenv run python -m coverage report --include=src/**/*.py --fail-under=80
-#          cd ..
-#          cd web-app
-#          pipenv run python -m coverage run -m pytest
-#          pipenv run python -m coverage report --include=src/**/*.py --fail-under=80
+          cd ..
+          cd web-app
+          pipenv run python -m coverage run -m pytest
+          pipenv run python -m coverage report --include=src/**/*.py --fail-under=80
