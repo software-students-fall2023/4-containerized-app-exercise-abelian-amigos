@@ -1,0 +1,42 @@
+name: Build and Push to DockerHub
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  MONGO_DB_HOST: ${{ secrets.MONGO_DB_HOST }}
+  MONGO_DB_PORT: ${{ secrets.MONGO_DB_PORT }}
+  MONGO_DB_USERNAME: ${{ secrets.MONGO_DB_USERNAME }}
+  MONGO_DB_PASSWORD: ${{ secrets.MONGO_DB_PASSWORD }}
+  MONGO_DB_NAME: ${{ secrets.MONGO_DB_NAME }}
+  ML_SERVER_URL: ${{ secrets.ML_SERVER_URL }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  IMAGES_DIR: ${{ secrets.IMAGES_DIR }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+
+jobs:
+  build:
+    name: Build and Push to DockerHub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v2
+
+      - name: Log in to DockerHub
+        run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: Build and Push ML Client Docker Image
+        run: |
+          docker build -t $DOCKER_USERNAME/machine-learning-client:latest ./machine-learning-client
+          docker push $DOCKER_USERNAME/machine-learning-client:latest
+
+      - name: Build and Push Web App Docker Image
+        run: |
+          docker build -t $DOCKER_USERNAME/web-app:latest ./web-app
+          docker push $DOCKER_USERNAME/web-app:latest
+
+      - name: Logout from DockerHub
+        run: docker logout

@@ -18,7 +18,6 @@ if MONGO_DB_USERNAME and MONGO_DB_PASSWORD:
         MONGO_DB_PORT,
         username=MONGO_DB_USERNAME,
         password=MONGO_DB_PASSWORD,
-        authSource=DATABASE_NAME,
     )
 else:
     connection = pymongo.MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
