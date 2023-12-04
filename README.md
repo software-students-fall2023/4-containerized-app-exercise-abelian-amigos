@@ -56,10 +56,7 @@ OR
 
 ### Accessing the deployed application
 
-1. Open the application in your browser
-    ```shell
-    http://134.209.174.92
-    ```
+1. Open the application in your browser: [https://sketchify.soyuj.com](https://sketchify.soyuj.com)
    
 **Note:** You can provide camera access to the web app to take a picture directly from the browser or upload an image.
 
