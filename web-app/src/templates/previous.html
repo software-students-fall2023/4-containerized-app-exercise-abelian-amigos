@@ -1,0 +1,31 @@
+{% extends 'layouts/layout.html' %}
+
+{% block title %}
+    Past Renders
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="container m-4 d-flex justify-content-between">
+            <a href="/previous" class="btn btn-secondary">See Previous Renders</a>
+            <a href="/logout" class="btn btn-secondary">Log Out</a>
+        </div>
+
+        <h1 class="mb-4 text-center">Past Renders</h1>
+        <div class="row justify-content-center">
+            {% if user_renders %}
+                {% for render in user_renders %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card border">
+                            <img src="/images/user_image/{{ render.image_name }}" class="card-img-top" alt="User Image">
+                            <img src="/images/sketch_image/{{ render.image_name }}" class="card-img-top"
+                                 alt="Sketch Image">
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h3 class="text-center">You have not generated any renders yet.</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

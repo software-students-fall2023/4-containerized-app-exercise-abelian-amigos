@@ -1,0 +1,71 @@
+header {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.webcam {
+    display: none;
+}
+
+#video {
+    border-radius: 30px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 0.5em;
+}
+
+.page-subtitle {
+    text-align: center;
+    font-size: 1.5em;
+    color: #666;
+}
+
+.button-container {
+    justify-content: space-around;
+}
+
+.upload-section, .webcam-section {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.upload-title, .webcam-title {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+}
+
+.button-group button {
+    margin-right: 10px;
+}
+
+.button-group button:last-child {
+    margin-right: 0;
+}
+
+.action-panel input[type="file"] {
+    width: unset;
+    margin: 1rem auto;
+}
